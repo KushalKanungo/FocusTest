@@ -5,11 +5,15 @@ import './Style/scrollbar.css'
 import SideBarComponent from './Components/SideBarComponent';
 import QuestionComponent from './Components/QuestionComponent';
 import SectionBarComponent from './Components/SectionBarComponent';
-import questions from "./ques.json"
+import questions from "./ques2.json"
 import { useState, useEffect } from 'react';
-
+let verbalQues = questions.filter((elem) => elem.SubjectID === 203)
+let dataQues = questions.filter((elem) => elem.SubjectID === 454 || elem.SubjectID === 7)
+let mathsQues = questions.filter((elem) => elem.SubjectID === 427)
 
 function App() {
+
+
 
   useEffect(() => {
     let userResponse = JSON.parse(localStorage.getItem('responses'))
@@ -22,11 +26,6 @@ function App() {
     }
   }, [])
 
-
-  let verbalQues = questions.filter((elem) => elem.SubjectID === 203)
-  let dataQues = questions.filter((elem) => elem.SubjectID === 454 || elem.SubjectID === 7)
-  let mathsQues = questions.filter((elem) => elem.SubjectID === 427)
-
   let examQuestions = {
     "verbal": verbalQues,
     "data": dataQues,
@@ -36,13 +35,18 @@ function App() {
 
   const [currQues, setCurrQues] = useState(0)
   const [currSection, setCurrSection] = useState(examQuestions.verbal)
+  const [currTab, setCurrTab] = useState(0)
   const [option, setOption] = useState({ 'op1': null, 'op2': null, 'op3': null, 'op4': null })
+
+
+  let userResponse = { "verbal": { "ques": { "option": 0 } } }
+
+
 
   const OptionHandeler = (option) => {
     let newOption = { option: "checked" }
     setOption(newOption)
   }
-
 
   const nextQuestionHandeler = () => {
     let nextQues = currQues + 1
@@ -67,26 +71,27 @@ function App() {
   const sectionHandeler = (section) => {
     if (section === 0) {
       setCurrSection(examQuestions.verbal)
+      setCurrTab(0)
     }
 
     else if (section === 1) {
       setCurrSection(examQuestions.data)
+      setCurrTab(1)
     }
 
     else if (section === 2) {
       setCurrSection(examQuestions.maths)
+      setCurrTab(2)
     }
 
     setCurrQues(0)
-
-
   }
 
   return (
     <div className='relative'>
-      <SectionBarComponent sectionChange={sectionHandeler} />
+      <SectionBarComponent sectionChange={sectionHandeler} currTab={currTab} />
       <QuestionComponent examdata={currSection} curr={currQues} next={nextQuestionHandeler} prev={prevQuestionHandeler} answered={answerHandeler} option={option} updateOption={OptionHandeler} />
-      <SideBarComponent number={currSection.length} setQuestion={setCurrQues} />
+      <SideBarComponent number={currSection.length} setQuestion={setCurrQues} curr={currQues} />
     </div>
   );
 }
