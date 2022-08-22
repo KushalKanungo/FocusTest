@@ -13,19 +13,6 @@ let mathsQues = questions.filter((elem) => elem.SubjectID === 427)
 
 function App() {
 
-
-
-  useEffect(() => {
-    let userResponse = JSON.parse(localStorage.getItem('responses'))
-    if (!userResponse) {
-      localStorage.setItem('response', JSON.stringify({ 'total': 0 }))
-    }
-
-    return () => {
-
-    }
-  }, [])
-
   let examQuestions = {
     "verbal": verbalQues,
     "data": dataQues,
@@ -39,7 +26,7 @@ function App() {
   const [option, setOption] = useState({ 'op1': null, 'op2': null, 'op3': null, 'op4': null })
 
 
-  let userResponse = { "verbal": { "ques": { "option": 0 } } }
+  // let userResponse = { "verbal": { "ques": { "option": 0 } } }
 
 
 
@@ -72,20 +59,39 @@ function App() {
     if (section === 0) {
       setCurrSection(examQuestions.verbal)
       setCurrTab(0)
+      localStorage.setItem('currTab', 0)
     }
 
     else if (section === 1) {
       setCurrSection(examQuestions.data)
       setCurrTab(1)
+      localStorage.setItem('currTab', 1)
+
     }
 
     else if (section === 2) {
       setCurrSection(examQuestions.maths)
       setCurrTab(2)
+      localStorage.setItem('currTab', 2)
+
     }
 
     setCurrQues(0)
   }
+
+  useEffect(() => {
+    let tab = localStorage.getItem('currTab')
+    // console.log(typeof(tab));
+    if (tab === '1' || tab === '2') {
+      console.log("value changed")
+      sectionHandeler(parseInt(tab))
+    }
+
+
+    return () => {
+
+    }
+  }, [])
 
   return (
     <div className='relative'>

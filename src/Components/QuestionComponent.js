@@ -19,9 +19,9 @@ const QuestionComponent = (props) => {
 
   const OptionsComponent = (props) => {
     return (
-      <div className={` md:absolute md:top-28  mt-10 h-4/6 md:w-5/12 md:px-10 right-0 overflow-auto plain`} n>
+      <div className={` md:absolute md:top-28  mt-10 md:h-4/6 md:w-5/12 md:px-10 right-0 overflow-auto plain`} n>
 
-        <div className="text-sm mb-4" dangerouslySetInnerHTML={{ __html: props.heading }}></div>
+        <div className="text-sm mb-4 hidden md:block" dangerouslySetInnerHTML={{ __html: props.heading }}></div>
 
         <input type="radio" id="test1" name="radio-group" {...props.answer.op1} />
         <label for="test1" className='my-2 text-sm 2xl:text-sm pr-20' dangerouslySetInnerHTML={{ __html: props.options[0].Options }}></label>
@@ -50,7 +50,7 @@ const QuestionComponent = (props) => {
         <div className="text-2xl 2xl:text-3xl mb-4">
           Ques.{props.curr + 1}
         </div>
-        {props.examdata[props.curr].Passage ? <div className='text-sm 2xl:text-sm ' dangerouslySetInnerHTML={{ __html: props.examdata[props.curr].Passage + props.examdata[props.curr].Items }}>
+        {props.examdata[props.curr].Passage ? <div className='text-sm 2xl:text-sm ' dangerouslySetInnerHTML={{ __html: props.examdata[props.curr].Passage + "<br/> <strong>" + props.examdata[props.curr].Items + "<strong />" }}>
         </div>
           :
           <div className='  overflow-auto text-sm 2xl:text-sm plain'
